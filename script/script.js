@@ -20,13 +20,14 @@ const btnStart = document.getElementById('start'),
   targetMonthValue = document.getElementsByClassName('target_month-value'),
 
   salaryAmount = document.querySelector('.salary-amount'),
-  incomeTitle = document.querySelector('.income-title'),
+  incomeTitle = document.querySelectorAll('.income-title')[1],
   incomeAmount = document.querySelector('.income-amount'),
-  expensesTitle = document.querySelector('.expenses-title'),
+  expensesTitle = document.querySelectorAll('.expenses-title')[1],
   expensesAmount = document.querySelector('.expenses-amount'),
   additionalExpensesItem = document.querySelector('.additional_expenses-item'),
   targetAmount = document.querySelector('.target-amount'),
   periodSelect = document.querySelector('.period-select');
+
 
 //проверка на буквы
 let checkStr = function (str) {
