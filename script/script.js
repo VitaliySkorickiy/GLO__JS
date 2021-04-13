@@ -2,22 +2,20 @@
 
 const btnStart = document.getElementById('start'),
 
-  income = document.querySelector('.income'),
-  btnPlusIncome = income.getElementsByTagName('button'),
-  expenses = document.querySelector('.expenses'),
-  btnPlusExpenses = expenses.getElementsByTagName('button'),
+  btnPlusIncome = document.getElementsByTagName('button')[0],
+  btnPlusExpenses = document.getElementsByTagName('button')[1],
 
   depositCheck = document.querySelector('#deposit-check'),
 
-  additionalIncomeItem_1 = document.querySelectorAll('.additional_income-item')[0],
-  additionalIncomeItem_2 = document.querySelectorAll('.additional_income-item')[1],
+  additionalIncomeItem = document.querySelectorAll('.additional_income-item'),
 
-  budgetВayМalue = document.getElementsByClassName('budget_day-value'),
-  expensesMonthValue = document.getElementsByClassName('expenses_month-value'),
-  additionalIncomeValue = document.getElementsByClassName('additional_income-value'),
-  additionalExpensesValue = document.getElementsByClassName('additional_expenses-value'),
-  incomePeriodValue = document.getElementsByClassName('income_period-value'),
-  targetMonthValue = document.getElementsByClassName('target_month-value'),
+  budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
+  budgetВayМalue = document.getElementsByClassName('budget_day-value')[0],
+  expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0],
+  additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
+  additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
+  incomePeriodValue = document.getElementsByClassName('income_period-value')[0],
+  targetMonthValue = document.getElementsByClassName('target_month-value')[0],
 
   salaryAmount = document.querySelector('.salary-amount'),
   incomeTitle = document.querySelectorAll('.income-title')[1],
@@ -45,7 +43,7 @@ let money;
 let start = function () {
 
   do {
-    money = prompt("Ваш месячный доход?", '100000');
+    money = +prompt("Ваш месячный доход?", '100000');
   }
   while (!isNumber(money));
 };
@@ -129,7 +127,7 @@ let appData = {
 
   // время достижения цели
   getTargetMonth: function () {
-    return appData.mission / appData.budgetMonth;
+    return Math.ceil(appData.mission / appData.budgetMonth);
   },
 
   getStatusIncome: function () {
@@ -139,7 +137,7 @@ let appData = {
       return ("У вас средний  уровень дохода");
     } else if (appData.budgetDay < 600 && appData.budgetDay > 0) {
       return ("К сожалению у вас уровень дохода ниже среднего");
-    } else if (appData.budgetDay < 0) {
+    } else if (appData.budgetDay <= 0) {
       return ("Цель не будет достигнута");
     } else {
       return ("Что то пошло не так");
@@ -170,7 +168,12 @@ appData.getExpensesMonth();
 appData.getBudget();
 
 console.log('расходы за месяц: ' + appData.expensesMonth);
-console.log('время за которое будет достигнута цель: ' + appData.getTargetMonth());
+
+if (appData.getTargetMonth() > 0) {
+  console.log('время за которое будет достигнута цель: ' + appData.getTargetMonth());
+} else {
+  console.log("Цель не будет достигнута");
+}
 console.log(appData.getStatusIncome());
 
 console.log(appData);
