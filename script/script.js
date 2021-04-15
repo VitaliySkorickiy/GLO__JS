@@ -39,12 +39,6 @@ let isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
 };
 
-// if (salaryAmount.value === '') {
-//   start.disabled = true;
-// } else {
-//   start.disabled = false;
-// }
-
 let appData = {
   budget: 0,
   budgetDay: 0,
@@ -79,7 +73,6 @@ let appData = {
 
     periodSelect.addEventListener('input', function () {
       appData.showResult();
-
     });
 
     budgetMonthValue.value = appData.budgetMonth;
@@ -219,13 +212,13 @@ let appData = {
   }
 };
 
-//  скрыл кнопку расчитать пока инпут пустой
-start.style.display = 'none';
+start.setAttribute("disabled", "disabled");
+
 salaryAmount.addEventListener('input', function () {
   if (salaryAmount.value !== '' && salaryAmount.value.length > 0) {
-    start.style.display = '';
+    start.removeAttribute("disabled", "disabled");
   } else if (salaryAmount.value == '') {
-    start.style.display = 'none';
+    start.setAttribute("disabled", "disabled");
   }
 });
 
@@ -251,6 +244,7 @@ periodSelect.addEventListener('input', function () {
 for (const key in appData) {
   // console.log('Наша программа включает в себя данные: ' + key + '-' + appData[key]);
 }
+
 
 
 
