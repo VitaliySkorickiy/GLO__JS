@@ -120,7 +120,10 @@ AppData.prototype.addExpensesBlock = function () {
 
   let cloneExpensesItem = expensesItems[0].cloneNode(true);
   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnExpensesPlus);
-  expensesItems = document.querySelectorAll('.expenses-items');
+
+  cloneExpensesItem.querySelectorAll('input').forEach(item=>{
+    item.value='';
+  });
 
   if (expensesItems.length === 3) {
     btnExpensesPlus.style.display = 'none';
@@ -133,8 +136,8 @@ AppData.prototype.getExpenses = function () {
   const _this = this;
 
   expensesItems.forEach(function (item) {
-    let itemExpenses = item.querySelector('.expenses-title').value;
     let cashExpenses = item.querySelector('.expenses-amount').value;
+    let itemExpenses = item.querySelector('.expenses-title').value;
     if (itemExpenses !== '' && cashExpenses !== '') {
       _this.expenses[itemExpenses] = cashExpenses;
     }
@@ -145,8 +148,11 @@ AppData.prototype.getExpenses = function () {
 AppData.prototype.addIncomeBlock = function () {
 
   let cloneIncomeItem = incomeItems[0].cloneNode(true);
+  
   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnIncomePlus);
-  incomeItems = document.querySelectorAll('.income-items');
+  cloneIncomeItem.querySelectorAll('input').forEach(item=>{
+    item.value='';
+  });
 
   if (incomeItems.length === 3) {
     btnIncomePlus.style.display = 'none';
@@ -307,8 +313,6 @@ AppData.prototype.eventListeners = function () {
 
 
 };
-
-
 
 const appData = new AppData();
 
