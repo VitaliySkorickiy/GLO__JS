@@ -1,15 +1,13 @@
-window.addEventListener("DOMContentLoaded", function () {
-  "use strict";
-
+window.addEventListener('DOMContentLoaded', () => {
   //  Timer
   const countTimer = (deadline) => {
-    let timerDay = document.querySelector("#timer-day"),
-      timerHours = document.querySelector("#timer-hours"),
-      timerMinutes = document.querySelector("#timer-minutes"),
-      timerSeconds = document.querySelector("#timer-seconds");
+    const timerDay = document.querySelector('#timer-day'),
+      timerHours = document.querySelector('#timer-hours'),
+      timerMinutes = document.querySelector('#timer-minutes'),
+      timerSeconds = document.querySelector('#timer-seconds');
 
     const getTimeRemaning = () => {
-      let dateStop = new Date(deadline).getTime(),
+      const dateStop = new Date(deadline).getTime(),
         dateNow = new Date().getTime(),
         timeRemaning = (dateStop - dateNow) / 1000,
         seconds = Math.floor(timeRemaning % 60),
@@ -28,14 +26,14 @@ window.addEventListener("DOMContentLoaded", function () {
 
     const zero = (num) => {
       if (num <= 9) {
-        return (num = "0" + num);
+        return (num = '0' + num);
       } else {
         return num;
       }
     };
 
     const updateClock = () => {
-      let timer = getTimeRemaning();
+      const timer = getTimeRemaning();
 
       timerDay.textContent = zero(timer.day);
       timerHours.textContent = zero(timer.hours);
@@ -45,35 +43,31 @@ window.addEventListener("DOMContentLoaded", function () {
       if (timer.timeRemaning > 0) {
         setTimeout(updateClock, 1000);
       } else {
-        timerHours.textContent = "00";
-        timerMinutes.textContent = "00";
-        timerSeconds.textContent = "00";
+        timerHours.textContent = '00';
+        timerMinutes.textContent = '00';
+        timerSeconds.textContent = '00';
       }
     };
 
     updateClock();
   };
-  countTimer("20 may 2021");
+  countTimer('20 may 2021');
 
   //    Меню
 
   const toggleMenu = () => {
-    const btnMenu = document.querySelector(".menu"),
-      menu = document.querySelector("menu"),
-      closeBtn = menu.querySelector(".close-btn"),
-      menuLi = menu.querySelector("ul>li");
+    const menu = document.querySelector('menu');
+    //  btnMenu = document.querySelector('.menu'),
+    // closeBtn = menu.querySelector('.close-btn'),
+    // menuLi = menu.querySelector('ul>li');
 
-    document.addEventListener("click", (e) => {
-      let target = e.target;
+    document.addEventListener('click', (e) => {
+      const target = e.target;
 
-      if (target.closest(".menu")) {
-        menu.classList.add("active-menu");
-      } else if (
-        target.closest(".close-btn") ||
-        target.closest("li") ||
-        target.closest("body")
-      ) {
-        menu.classList.remove("active-menu");
+      if (target.closest('.menu')) {
+        menu.classList.add('active-menu');
+      } else if (target.closest('.close-btn') || target.closest('li') || target.closest('body')) {
+        menu.classList.remove('active-menu');
       }
     });
   };
@@ -82,24 +76,24 @@ window.addEventListener("DOMContentLoaded", function () {
   // popup
 
   const togglePopup = () => {
-    const popup = document.querySelector(".popup"),
-      popupBtn = document.querySelectorAll(".popup-btn");
+    const popup = document.querySelector('.popup'),
+      popupBtn = document.querySelectorAll('.popup-btn');
 
     popupBtn.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        popup.style.display = "block";
+      btn.addEventListener('click', () => {
+        popup.style.display = 'block';
       });
     });
 
-    popup.addEventListener("click", (e) => {
+    popup.addEventListener('click', (e) => {
       let target = e.target;
 
-      if (target.classList.contains("popup-close")) {
-        popup.style.display = "";
+      if (target.classList.contains('popup-close')) {
+        popup.style.display = '';
       } else {
-        target = target.closest(".popup-content");
+        target = target.closest('.popup-content');
         if (!target) {
-          popup.style.display = "";
+          popup.style.display = '';
         }
       }
     });
@@ -109,26 +103,26 @@ window.addEventListener("DOMContentLoaded", function () {
   // tab
 
   const tabs = () => {
-    const tabHeader = document.querySelector(".service-header"),
-      tab = tabHeader.querySelectorAll(".service-header-tab"),
-      tabContent = document.querySelectorAll(".service-tab");
+    const tabHeader = document.querySelector('.service-header'),
+      tab = tabHeader.querySelectorAll('.service-header-tab'),
+      tabContent = document.querySelectorAll('.service-tab');
 
     const toggleTabContent = (index) => {
       for (let i = 0; i < tabContent.length; i++) {
         if (index === i) {
-          tab[i].classList.add("active");
-          tabContent[i].classList.remove("d-none");
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
         } else {
-          tab[i].classList.remove("active");
-          tabContent[i].classList.add("d-none");
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
         }
       }
     };
 
-    tabHeader.addEventListener("click", (e) => {
+    tabHeader.addEventListener('click', (e) => {
       let target = e.target;
 
-      target = target.closest(".service-header-tab");
+      target = target.closest('.service-header-tab');
 
       if (target) {
         tab.forEach((item, i) => {
@@ -145,21 +139,21 @@ window.addEventListener("DOMContentLoaded", function () {
   // slider
 
   const slider = () => {
-    const slider = document.querySelector(".portfolio-content"),
-      slide = slider.querySelectorAll(".portfolio-item"),
-      btn = slider.querySelectorAll(".portfolio-btn"),
-      dotsList = slider.querySelector(".portfolio-dots");
+    const slider = document.querySelector('.portfolio-content'),
+      slide = slider.querySelectorAll('.portfolio-item'),
+      // btn = slider.querySelectorAll('.portfolio-btn'),
+      dotsList = slider.querySelector('.portfolio-dots');
 
     let currentSlide = 0,
       interval;
 
     for (let i = 0; i < slide.length; i++) {
-      const dotItem = document.createElement("li");
-      dotItem.classList.add("dot");
+      const dotItem = document.createElement('li');
+      dotItem.classList.add('dot');
       dotsList.append(dotItem);
     }
-    let dot = slider.querySelectorAll(".dot");
-    dotsList.firstElementChild.classList.add("dot-active");
+    const dot = slider.querySelectorAll('.dot');
+    dotsList.firstElementChild.classList.add('dot-active');
 
     const prevSlide = (elem, index, strClass) => {
       elem[index].classList.remove(strClass);
@@ -170,16 +164,16 @@ window.addEventListener("DOMContentLoaded", function () {
     };
 
     const autoPlaySlide = () => {
-      prevSlide(slide, currentSlide, "portfolio-item-active");
-      prevSlide(dot, currentSlide, "dot-active");
+      prevSlide(slide, currentSlide, 'portfolio-item-active');
+      prevSlide(dot, currentSlide, 'dot-active');
       currentSlide++;
 
       if (currentSlide >= slide.length) {
         currentSlide = 0;
       }
 
-      nextSlide(slide, currentSlide, "portfolio-item-active");
-      nextSlide(dot, currentSlide, "dot-active");
+      nextSlide(slide, currentSlide, 'portfolio-item-active');
+      nextSlide(dot, currentSlide, 'dot-active');
     };
 
     const startSlide = (time = 3000) => {
@@ -190,22 +184,22 @@ window.addEventListener("DOMContentLoaded", function () {
       clearInterval(interval);
     };
 
-    slider.addEventListener("click", (e) => {
+    slider.addEventListener('click', (e) => {
       e.preventDefault();
-      let target = e.target;
+      const target = e.target;
 
-      if (!target.matches(".portfolio-btn, .dot ")) {
+      if (!target.matches('.portfolio-btn, .dot ')) {
         return;
       }
 
-      prevSlide(slide, currentSlide, "portfolio-item-active");
-      prevSlide(dot, currentSlide, "dot-active");
+      prevSlide(slide, currentSlide, 'portfolio-item-active');
+      prevSlide(dot, currentSlide, 'dot-active');
 
-      if (target.matches("#arrow-right")) {
+      if (target.matches('#arrow-right')) {
         currentSlide++;
-      } else if (target.matches("#arrow-left")) {
+      } else if (target.matches('#arrow-left')) {
         currentSlide--;
-      } else if (target.matches(".dot")) {
+      } else if (target.matches('.dot')) {
         dot.forEach((dot, index) => {
           if (dot === target) {
             currentSlide = index;
@@ -220,18 +214,18 @@ window.addEventListener("DOMContentLoaded", function () {
         currentSlide = slide.length - 1;
       }
 
-      nextSlide(slide, currentSlide, "portfolio-item-active");
-      nextSlide(dot, currentSlide, "dot-active");
+      nextSlide(slide, currentSlide, 'portfolio-item-active');
+      nextSlide(dot, currentSlide, 'dot-active');
     });
 
-    slider.addEventListener("mouseover", (e) => {
-      if (e.target.matches(".portfolio-btn") || e.target.matches(".dot")) {
+    slider.addEventListener('mouseover', (e) => {
+      if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')) {
         stopSlide();
       }
     });
 
-    slider.addEventListener("mouseout", (e) => {
-      if (e.target.matches(".portfolio-btn") || e.target.matches(".dot")) {
+    slider.addEventListener('mouseout', (e) => {
+      if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')) {
         startSlide(1000);
       }
     });
@@ -240,4 +234,66 @@ window.addEventListener("DOMContentLoaded", function () {
   };
 
   slider();
+
+  // command
+
+  const changeImg = () => {
+    const img = document.querySelectorAll('.command__photo');
+
+    img.forEach((item) => {
+      item.addEventListener('mouseover', (e) => {
+        const src = e.target.src;
+        e.target.src = e.target.dataset.img;
+
+        item.addEventListener('mouseout', () => {
+          e.target.src = src;
+        });
+      });
+    });
+  };
+  changeImg();
+
+  // calc
+
+  const validCalc = () => {
+    const itemCalc = document.querySelectorAll('input.calc-item');
+
+    itemCalc.forEach((item) => {
+      item.addEventListener('input', () => {
+        item.value = item.value.replace(/\D/g, '');
+      });
+    });
+  };
+  validCalc();
+
+  // valid form
+
+  const validForm = () => {
+    const name = document.getElementById('form2-name'),
+      message = document.getElementById('form2-message'),
+      email = document.getElementById('form2-email'),
+      tel = document.getElementById('form2-phone');
+    console.log(name);
+
+    const str = (item) => {
+      item.value = item.value.replace(/[^А-Яа-яЁё\-\ ]/gi, '').trim();
+    };
+
+    name.addEventListener('blur', () => {
+      str(name);
+    });
+
+    message.addEventListener('blur', () => {
+      str(message);
+    });
+
+    email.addEventListener('blur', () => {
+      email.value = email.value.replace(/[^A-Za-z\@\-\_\.\!\~\*\']\ +/gi, '').trim();
+    });
+
+    tel.addEventListener('blur', () => {
+      tel.value = tel.value.replace(/[^0-9\-\(\)]/gi, '').trim();
+    });
+  };
+  validForm();
 });
