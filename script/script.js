@@ -57,9 +57,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const toggleMenu = () => {
     const menu = document.querySelector('menu');
-    //  btnMenu = document.querySelector('.menu'),
-    // closeBtn = menu.querySelector('.close-btn'),
-    // menuLi = menu.querySelector('ul>li');
 
     document.addEventListener('click', (e) => {
       const target = e.target;
@@ -141,7 +138,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const slider = () => {
     const slider = document.querySelector('.portfolio-content'),
       slide = slider.querySelectorAll('.portfolio-item'),
-      // btn = slider.querySelectorAll('.portfolio-btn'),
       dotsList = slider.querySelector('.portfolio-dots');
 
     let currentSlide = 0,
@@ -226,7 +222,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     slider.addEventListener('mouseout', (e) => {
       if (e.target.matches('.portfolio-btn') || e.target.matches('.dot')) {
-        startSlide(1000);
+        startSlide(3000);
       }
     });
 
@@ -237,21 +233,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // command
 
-  const changeImg = () => {
-    const img = document.querySelectorAll('.command__photo');
+  const images = document.querySelectorAll('[data-img]');
 
-    img.forEach((item) => {
-      item.addEventListener('mouseover', (e) => {
-        const src = e.target.src;
-        e.target.src = e.target.dataset.img;
-
-        item.addEventListener('mouseout', () => {
-          e.target.src = src;
-        });
-      });
-    });
-  };
-  changeImg();
+  images.forEach((item) => {
+    const changeImg = () => {
+      const src = item.src;
+      const otherSrc = item.dataset.img;
+      item.dataset.img = src;
+      item.src = otherSrc;
+    };
+    item.addEventListener('mouseout', changeImg);
+    item.addEventListener('mouseover', changeImg);
+  });
 
   // calc
 
@@ -268,33 +261,42 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // valid form
 
-  const validForm = () => {
-    const name = document.getElementById('form2-name'),
-      message = document.getElementById('form2-message'),
-      email = document.getElementById('form2-email'),
-      tel = document.getElementById('form2-phone');
+  const name1 = document.getElementById('form1-name'),
+    email1 = document.getElementById('form1-email'),
+    tel1 = document.getElementById('form1-phone'),
+    name2 = document.getElementById('form2-name'),
+    message2 = document.getElementById('form2-message'),
+    email2 = document.getElementById('form2-email'),
+    tel2 = document.getElementById('form2-phone'),
+    name3 = document.getElementById('form3-name'),
+    email3 = document.getElementById('form3-email'),
+    tel3 = document.getElementById('form3-phone');
 
-    const str = (item) => {
-      item.value = item.value.replace(/[^А-Яа-яЁё\-\ ]/gi, '').trim();
-    };
-
-    name.addEventListener('blur', () => {
-      str(name);
-    });
-
-    message.addEventListener('blur', () => {
-      str(message);
+  const validForm = (name, email, tel, mess) => {
+    name.addEventListener('input', () => {
+      name.value = name.value.replace(/[^А-Яа-яЁё\ ]/gi, '').trim();
     });
 
     email.addEventListener('blur', () => {
-      email.value = email.value.replace(/[^A-Za-z\@\-\_\.\!\~\*\']\ +/gi, '').trim();
+      email.value = email.value.replace(/[^A-Za-z0-9\@. ]/gi, '').trim();
     });
 
-    tel.addEventListener('blur', () => {
-      tel.value = tel.value.replace(/[^0-9\-\(\)]/gi, '').trim();
+    tel.addEventListener('input', () => {
+      tel.value = tel.value.replace(/[^0-9\+]/gi, '').trim();
     });
+
+    if (mess) {
+      const regMess = /^[?!,.а-яА-ЯёЁ0-9\s]+$/;
+      mess.addEventListener('input', () => {
+        if (!regMess.test(mess.value)) {
+          mess.value = '';
+        }
+      });
+    }
   };
-  validForm();
+  validForm(name1, email1, tel1);
+  validForm(name2, email2, tel2, message2);
+  validForm(name3, email3, tel3);
 
   // калькулятор
   const calc = (price = 100) => {
@@ -326,19 +328,18 @@ window.addEventListener('DOMContentLoaded', () => {
       if (squareValue && typeValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
-      // totalValue.textContent = total;
 
       const f1 = () => {
         let t = 0;
         let interval = setInterval(() => {
-          t += 173;
+          t = (t + 1) * 2;
 
           if (t >= total) {
             t = total;
             clearInterval(interval);
           }
           totalValue.textContent = t;
-        }, 24);
+        }, 80);
       };
 
       f1();
@@ -353,4 +354,70 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
   calc(100);
+
+  // send-ajax-form
+
+  const form1 = document.getElementById('form1');
+  const formMessage = document.getElementById('form2');
+  const formModal = document.getElementById('form3');
+
+  const sendForm = (form) => {
+    const errorMessage = 'Что-то пошло не так...',
+      loadMessage = 'Загрузка...',
+      successMessage = 'Спасибо! Мы скоро с Вами свяжимся!';
+
+    const statusMessage = document.createElement('div');
+
+    form.addEventListener('submit', (e) => {
+      console.log(form);
+
+      e.preventDefault();
+      form.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+
+      const formData = new FormData(form);
+      let body = {};
+
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      postData(
+        body,
+        () => {
+          statusMessage.textContent = successMessage;
+        },
+        (error) => {
+          statusMessage.textContent = errorMessage;
+          console.log(error);
+        }
+      );
+      form.querySelectorAll('input').forEach((item) => (item.value = ''));
+    });
+
+    const postData = (body, outputData, errorData) => {
+      const request = new XMLHttpRequest();
+
+      request.addEventListener('readystatechange', () => {
+        if (request.readyState !== 4) {
+          return;
+        }
+        if (request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+      });
+
+      request.open('POST', '../server.php');
+      request.setRequestHeader('Content-Type', 'application/json');
+
+      console.log(body);
+
+      request.send(JSON.stringify(body));
+    };
+  };
+
+  sendForm(form1);
+  sendForm(formMessage);
+  sendForm(formModal);
 });
