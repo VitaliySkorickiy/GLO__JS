@@ -369,54 +369,39 @@ window.addEventListener('DOMContentLoaded', () => {
     const statusMessage = document.createElement('div');
 
     form.addEventListener('submit', (e) => {
-      console.log(form);
-
       e.preventDefault();
+
       form.appendChild(statusMessage);
-      statusMessage.textContent = loadMessage;
 
       const formData = new FormData(form);
-      let body = {};
 
-      formData.forEach((val, key) => {
-        body[key] = val;
-      });
+      statusMessage.textContent = loadMessage;
 
-      const postData = (body) => {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest();
-          request.open('POST', '../server.php');
-          request.addEventListener('readystatechange', () => {
-            if (request.readyState !== 4) {
-              return;
-            }
-            if (request.status === 200) {
-              resolve();
-            } else {
-              reject(request.status);
-            }
-          });
-
-          console.log(body);
-
-          request.send(JSON.stringify(body));
-        });
-      };
-
-      postData(
-        body,
-        () => {
+      postData(formData)
+        .then((response) => {
+          if (response.status !== 200) {
+            throw new Error('status network not 200');
+          }
           statusMessage.textContent = successMessage;
-        },
-        (error) => {
+        })
+        .catch((error) => {
           statusMessage.textContent = errorMessage;
-          console.log(error);
-        }
-      );
-      form.querySelectorAll('input').forEach((item) => (item.value = ''));
+          console.error(error);
+        });
     });
-  };
+    form.querySelectorAll('input').forEach((item) => (item.value = ''));
 
+    const postData = (formData) => {
+      return fetch('../server.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: formData,
+        credentials: 'include',
+      });
+    };
+  };
   sendForm(form1);
   sendForm(formMessage);
   sendForm(formModal);
