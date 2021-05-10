@@ -45,7 +45,7 @@ const name1 = document.getElementById('form1-name'),
   email1 = document.getElementById('form1-email'),
   tel1 = document.getElementById('form1-phone'),
   name2 = document.getElementById('form2-name'),
-  message2 = document.getElementById('form2-message'),
+  mess = document.getElementById('form2-message'),
   email2 = document.getElementById('form2-email'),
   tel2 = document.getElementById('form2-phone'),
   name3 = document.getElementById('form3-name'),
@@ -53,7 +53,7 @@ const name1 = document.getElementById('form1-name'),
   tel3 = document.getElementById('form3-phone');
 
 validForm(name1, email1, tel1);
-validForm(name2, email2, tel2, message2);
+validForm(name2, email2, tel2, mess);
 validForm(name3, email3, tel3);
 
 // калькулятор

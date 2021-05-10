@@ -27,24 +27,24 @@ const calc = (price = 100) => {
     if (squareValue && typeValue) {
       total = price * typeValue * squareValue * countValue * dayValue;
     }
+    totalValue.textContent = total;
+    // let t = 0;
+    // const f1 = () => {
+    //   let interval = setInterval(() => {
+    //     console.log(t);
+    //     t = (t + 4) * 3;
 
-    const f1 = () => {
-      let t = 0;
-      let interval = setInterval(() => {
-        t = (t + 1) * 2;
-
-        if (t >= total) {
-          t = total;
-          clearInterval(interval);
-        }
-        totalValue.textContent = t;
-      }, 80);
-    };
-
-    f1();
+    //     if (t >= total) {
+    //       clearInterval(interval);
+    //       t = total;
+    //     }
+    //     totalValue.textContent = t;
+    //   }, 100);
+    // };
+    // f1();
   };
 
-  calcBlock.addEventListener('change', (e) => {
+  calcBlock.addEventListener('input', (e) => {
     const target = e.target;
 
     if (target.matches('select') || target.matches('input')) {
