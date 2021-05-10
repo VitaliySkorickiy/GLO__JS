@@ -13,9 +13,11 @@ const togglePopup = () => {
 
     if (target.classList.contains('popup-close')) {
       popup.style.display = '';
+      console.log(1);
     } else {
       target = target.closest('.popup-content');
       if (!target) {
+        console.log(2);
         popup.style.display = '';
       }
     }

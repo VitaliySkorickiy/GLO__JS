@@ -4,14 +4,16 @@ const sendForm = (form) => {
     successMessage = 'Спасибо! Мы скоро с Вами свяжимся!';
 
   const statusMessage = document.createElement('div');
+  const popup = document.querySelector('.popup');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
+    let target = e.target;
     form.appendChild(statusMessage);
 
     const formData = new FormData(form);
 
+    statusMessage.style.color = 'white';
     statusMessage.textContent = loadMessage;
 
     postData(formData)
@@ -20,6 +22,10 @@ const sendForm = (form) => {
           throw new Error('status network not 200');
         }
         statusMessage.textContent = successMessage;
+        setTimeout(() => {
+          console.log(4);
+          popup.style.display = '';
+        }, 2000);
       })
       .catch((error) => {
         statusMessage.textContent = errorMessage;
