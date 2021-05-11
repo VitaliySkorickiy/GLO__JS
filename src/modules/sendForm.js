@@ -8,7 +8,6 @@ const sendForm = (form) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    let target = e.target;
     form.appendChild(statusMessage);
 
     const formData = new FormData(form);
@@ -23,7 +22,7 @@ const sendForm = (form) => {
         }
         statusMessage.textContent = successMessage;
         setTimeout(() => {
-          console.log(4);
+          statusMessage.remove();
           popup.style.display = '';
         }, 2000);
       })

@@ -17,7 +17,6 @@ const togglePopup = () => {
     } else {
       target = target.closest('.popup-content');
       if (!target) {
-        console.log(2);
         popup.style.display = '';
       }
     }

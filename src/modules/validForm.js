@@ -1,8 +1,11 @@
 // valid form
 
 const validForm = (name, email, tel, mess) => {
-  name.addEventListener('input', () => {
-    name.value = name.value.replace(/[^\s\а-яА-ЯёЁ\-]/g, '').trim();
+  name.addEventListener('blur', () => {
+    name.value = name.value.replace(/[^\а-яА-ЯёЁ\-][/\s+/g,'']/g, '');
+    return (name.value = name.value.replace(/(^|\s)\S/g, (a) => {
+      return a.toUpperCase();
+    }));
   });
 
   email.addEventListener('input', () => {
@@ -14,8 +17,8 @@ const validForm = (name, email, tel, mess) => {
   });
 
   if (mess) {
-    mess.addEventListener('input', () => {
-      mess.value = mess.value.replace(/[^\s\а-яА-ЯёЁ\-]/g, '');
+    mess.addEventListener('blur', () => {
+      mess.value = mess.value.replace(/[^\а-яА-ЯёЁ\-][\s+/g,'']/g, '');
     });
   }
 };
